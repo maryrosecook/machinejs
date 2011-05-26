@@ -10,8 +10,6 @@ By mary rose cook
 
 Machine.js lets you use a hierarchical state machine to control a JavaScript object.
 
-To use Machine.js, there are three steps:
-
 * Define a behaviour tree as JSON.
 <pre><code>{
     identifier: "idle", strategy: "prioritised",
