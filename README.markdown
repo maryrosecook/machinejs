@@ -11,21 +11,22 @@ By mary rose cook
 Machine.js lets you use a hierarchical state machine to control a JavaScript object.
 
 * Define a behaviour tree as JSON.
-<pre><code>{
-    identifier: "idle", strategy: "prioritised",
-    children: [
-        {
-            identifier: "photosynthesise", strategy: "sequential",
-            children: [
-                { identifier: "makeEnergy" },
-                { identifier: "grow" },
-                { identifier: "emitOxygen" },
-            ]
-        },
-        { identifier: "gatherSun" },
-        { identifier: "gatherWater" },
-    ]
-};</code></pre>
+    <pre><code>{
+        identifier: "idle", strategy: "prioritised",
+        children: [
+            {
+                identifier: "photosynthesise", strategy: "sequential",
+                children: [
+                    { identifier: "makeEnergy" },
+                    { identifier: "grow" },
+                    { identifier: "emitOxygen" },
+                ]
+            },
+            { identifier: "gatherSun" },
+            { identifier: "gatherWater" },
+        ]
+    };
+    </code></pre>
 
 * Define on your object a function for each state where action is taken.
 
