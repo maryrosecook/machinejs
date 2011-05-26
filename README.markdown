@@ -2,8 +2,8 @@
 Make behaviour trees in JavaScript
 
 By mary rose cook
-http://maryrosecook.com
-maryrosecook@maryrosecook.com
+* http://maryrosecook.com
+* maryrosecook@maryrosecook.com
 
 ##What is Machine.js?
 
