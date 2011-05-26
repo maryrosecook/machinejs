@@ -36,8 +36,7 @@ https://gist.github.com/991347.js?file=landscape.js
 
 Write some JSON that defines your object's behaviour tree.
 
-<pre><code>
-var landscapeBehaviourJson = {
+<pre><code>var landscapeBehaviourJson = {
     identifier: "idle", strategy: "sequential",
     children: [
         { identifier: "shine" },
