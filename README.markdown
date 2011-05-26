@@ -12,7 +12,7 @@ Machine.js lets you use a hierarchical state machine to control a JavaScript obj
 
 To use Machine.js, there are three steps:
 
-1. Define a behaviour tree as JSON.
+* Define a behaviour tree as JSON.
 
 <pre><code>{
     identifier: "idle", strategy: "prioritised",
@@ -30,9 +30,9 @@ To use Machine.js, there are three steps:
     ]
 };</code></pre>
 
-2. Define on your object a function for each state where action is taken.
+* Define on your object a function for each state where action is taken.
 
-3. Define a can function for each state that returns true if the object may move to that state.
+* Define a can function for each state that returns true if the object may move to that state.
 
 ##Licence
 
