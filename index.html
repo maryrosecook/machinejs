@@ -63,9 +63,37 @@
     Make behaviour trees in JavaScript<br/>
 
     <h2>What is it?</h2>
-
     <p>
       Machine.js lets you use a hierarchical state machine to control a JavaScript object.
+    </p>
+
+    <p>
+      1. Define a behaviour tree as JSON.
+    </p>
+
+    <pre><code>{
+    identifier: "idle", strategy: "prioritised",
+    children: [
+        {
+            identifier: "photosynthesise", strategy: "sequential",
+            children: [
+                { identifier: "makeEnergy" },
+                { identifier: "grow" },
+                { identifier: "emitOxygen" },
+            ]
+        },
+        { identifier: "gatherSun" },
+        { identifier: "gatherWater" },
+    ]
+};    </code></pre>
+
+    <p>
+      2. Define on your object a function for each state where action is taken.
+    </p>
+
+    <p>
+      3. For each state, define a can function that returns true if the
+      object may move to that state.
     </p>
 
     <h2>Licence</h2>
@@ -130,13 +158,13 @@
     <p>
       For each state in your behaviour tree, add a synonymous function to your object.
       This will be run once when the object moves to the corresponding state.  For each state,
-      also add a function called "canNameOfState".  This should return true if
+      also add a function called <code>canNameOfState</code>.  This should return true if
       the object is allowed to move to the corresponding state.
     </p>
 
     <p>
-      For example, if your state is called "kiss", you would add a function to your
-      object called "kiss" that does the kissing, and a function called "canKiss"
+      For example, if your state is called <code>kiss</code>, you would add a function to your
+      object called <code>kiss</code> that does the kissing, and a function called <code>canKiss</code>
       that returns true if kissing is allowed.
     </p>
 
@@ -150,6 +178,43 @@
     </p>
 
     <script src="https://gist.github.com/991347.js?file=alltogether.js"></script>
+
+    <h2>Reference</h2>
+
+    <h3>Syntax of the JSON</h3>
+    <p>
+      States are defined as JSON hashes.  All must have an identifier property that is
+      set to the name of the state.  Fork states also have a strategy property and a children
+      property that is set to a list of subsequent states.
+    </p>
+
+    <h3>Can functions</h3>
+    <p>
+      Each state in the machine has a corresponding can function on the object
+      controlled by the state machine called <code>canNameOfState</code>.
+      This returns true if the object can move to this state.  You can omit
+      this function if the state is always applicible.
+    </p>
+
+    <h3>Strategies</h3>
+    <p>
+      Fork states are those that have children.  A fork state has a strategy
+      assigned to it that determines which state the machine should move
+      to from a fork state.  Machine.js supports two strategies:
+    </p>
+
+    <p>
+      <strong>Prioritised.</strong>  Call the can function of the first child.  If it
+      returns true, move to that child state.  If it does not, try the
+      next child, and so on.  Once a child has been run, or the final
+      child has been tested and returns false, go back to the parent fork state.
+    </p>
+
+    <p>
+      <strong>Sequential.</strong>  Go through all the child states, executing each one
+      for which the corresponding can function returns true.  Once all
+      the children have been processed, move back to the parent fork state.
+    </p>
 
    </body>
  </html>
