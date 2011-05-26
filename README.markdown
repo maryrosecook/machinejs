@@ -30,7 +30,7 @@ You will need to import machine.js and base.js. If you are running your behaviou
 
 Define the object that will be controlled by the behaviour tree. Any normal JavaScript object will do.
 
-https://gist.github.com/991347.js?file=landscape.js
+https://gist.github.com/991347#file_landscape.js
 
 ###Write a behaviour tree
 
@@ -51,10 +51,10 @@ For each state in your behaviour tree, add a synonymous function to your object.
 
 For example, if your state is called "kiss", you would add a function to your object called "kiss" that does the kissing, and a function called "canKiss" that returns true if kissing is allowed.
 
-https://gist.github.com/991347.js?file=landscapewithbehaviour.js
+https://gist.github.com/991347#file_landscapewithbehaviour.js
 
 ###Put it all together
 
 Instantiate your object. Make an instance of Machine. Use the instance of machine to generate a behaviour tree, passing in the tree JSON and your object. Repeatedly call <code>tick()</code> on the state machine.
 
-https://gist.github.com/991347.js?file=alltogether.js
+https://gist.github.com/991347#file_alltogether.js
