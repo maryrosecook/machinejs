@@ -3,7 +3,7 @@
   by mary rose cook
   http://github.com/maryrosecook/machinejs
 
-  A behaviour tree in JavaScript.
+  Make behaviour trees in JavaScript.
   See index.html for an example.
 
   Uses Base.js by Dean Edwards.  Thanks, Dean.
