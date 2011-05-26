@@ -24,17 +24,27 @@ Movement from state to state is controlled by two mechanisms: strategies and can
 
 ###Import libraries
 
-You will need to import machine.js and base.js. If you are running your behaviour tree in a web page, you can do that with normal script tag imports.
+You will need to import machine.js and base.js. If you are running your behaviour tree in a web page, you can use normal script tag imports.
 
 ###Define an object
 
 Define the object that will be controlled by the behaviour tree. Any normal JavaScript object will do.
 
-<script src="https://gist.github.com/991347.js?file=landscape.js"></script>
+https://gist.github.com/991347.js?file=landscape.js
 
 ###Write a behaviour tree
 
 Write some JSON that defines your object's behaviour tree.
+
+<code>
+var landscapeBehaviourJson = {
+    identifier: "idle", strategy: "sequential",
+    children: [
+        { identifier: "shine" },
+        { identifier: "rain" },
+    ]
+};
+</code>
 
 ###Add behaviours to your object
 
@@ -42,6 +52,10 @@ For each state in your behaviour tree, add a synonymous function to your object.
 
 For example, if your state is called "kiss", you would add a function to your object called "kiss" that does the kissing, and a function called "canKiss" that returns true if kissing is allowed.
 
+https://gist.github.com/991347.js?file=landscapewithbehaviour.js
+
 ###Put it all together
 
 Instantiate your object. Make an instance of Machine. Use the instance of machine to generate a behaviour tree, passing in the tree JSON and your object. Repeatedly call <code>tick()</code> on the state machine.
+
+https://gist.github.com/991347.js?file=alltogether.js
