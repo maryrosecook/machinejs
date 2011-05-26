@@ -14,6 +14,10 @@ Machine.js lets you use a hierarchical state machine to control a JavaScript obj
 
 The code is open source, under the MIT licence.  It uses Base.js by Dean Edwards.
 
+##Getting started
+
+Download the repository.  Open index.html in your browser to see the demo and documentation.
+
 ##Tutorial
 
 ###A primer on behaviour trees
