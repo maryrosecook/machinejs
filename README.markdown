@@ -24,11 +24,13 @@ Movement from state to state is controlled by two mechanisms: strategies and can
 
 ###Import libraries
 
-You will need to import machine.js and base.js. If you are running your behaviour tree in a web page, you might do that like this:
+You will need to import machine.js and base.js. If you are running your behaviour tree in a web page, you can do that with normal script tag imports.
 
 ###Define an object
 
 Define the object that will be controlled by the behaviour tree. Any normal JavaScript object will do.
+
+<script src="https://gist.github.com/991347.js?file=landscape.js"></script>
 
 ###Write a behaviour tree
 
