@@ -64,7 +64,6 @@ var Node = Base.extend({
 
     // a tick of the clock.  Called every time
     tick: function() {
-        //if(PistolSlut.inView(this.actor.host)) console.log(this.identifier);
         if(this.isAction()) // run an actual action
             this.run();
 
