@@ -53,14 +53,14 @@ var Node = Base.extend({
     actor: null,
     report: null,
 
-	constructor: function(identifier, test, strategy, parent, actor) {
+    constructor: function(identifier, test, strategy, parent, actor) {
         this.identifier = identifier;
         this.test = test;
         this.strategy = strategy;
         this.parent = parent;
         this.actor = actor;
         this.children = [];
-	},
+    },
 
     // a tick of the clock.  Called every time
     tick: function() {
