@@ -62,7 +62,7 @@
     &nbsp;by <a href='http://maryrosecook.com'>mary rose cook</a><br/>
     Make behaviour trees in JavaScript<br/>
 
-    <h2>What is it?</h2>
+    <h2>What is this library?</h2>
     <p>
       Machine.js lets you use a hierarchical state machine to control a JavaScript object.
     </p>
@@ -203,15 +203,19 @@
       to from a fork state.  Machine.js supports two strategies:
     </p>
 
+    <h4>Prioritised</h4>
+
     <p>
-      <strong>Prioritised.</strong>  Call the can function of the first child.  If it
+      Call the can function of the first child.  If it
       returns true, move to that child state.  If it does not, try the
       next child, and so on.  Once a child has been run, or the final
       child has been tested and returns false, go back to the parent fork state.
     </p>
 
+    <h4>Sequential</h4>
+
     <p>
-      <strong>Sequential.</strong>  Go through all the child states, executing each one
+      Go through all the child states, executing each one
       for which the corresponding can function returns true.  Once all
       the children have been processed, move back to the parent fork state.
     </p>
