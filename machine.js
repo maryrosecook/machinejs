@@ -70,7 +70,7 @@ var Node = Base.extend({
     this.children = [];
   },
 
-  // a tick of the clock.  Called every time
+  // A tick of the clock.  Returns the next state.
   tick: function() {
     if(this.isAction()) // run an actual action
       this.run();
@@ -81,31 +81,23 @@ var Node = Base.extend({
     else if(this.can()) // no child state, try and stay in this one
       return this;
     else // can't stay in this one, so back up the tree
-      return this.nearestAncestor().transition();
+      return this.nearestRunnableAncestor().transition();
   },
 
   // gets next state that would be moved to from current state
   nextState: function() {
     var strategy = this.strategy;
     if(strategy === undefined)
-      strategy = this.getNearestAncestorStrategy();
+    {
+      var ancestor = this.nearestAncestorWithStrategy();
+      if(ancestor !== null)
+        strategy = ancestor.strategy;
+    }
 
-    if(strategy !== undefined)
+    if(strategy !== null)
       return this[strategy].call(this);
     else
       return null;
-  },
-
-  // finds closest ancestor that has a strategy and returns that strategy
-  getNearestAncestorStrategy: function() {
-    if(this.parent !== null)
-    {
-      if(this.parent.strategy !== null)
-        return this.parent.strategy;
-      else
-        return this.parent.getNearestAncestorStrategy();
-    }
-    // return undefined
   },
 
   isTransition: function() { return this.children.length > 0 || this instanceof Pointer; },
@@ -121,19 +113,6 @@ var Node = Base.extend({
       return this.actor[functionName].call(this.actor);
     else // no canX() function defined - assume can
       return true;
-  },
-
-  // returns nearest ancestor that can run
-  nearestAncestor: function() {
-    if(this.parent !== null)
-    {
-      if(this.parent.can())
-        return this.parent;
-      else
-        return this.parent.nearestAncestor();
-    }
-
-    return null;
   },
 
   // returns first child that can run
@@ -172,17 +151,36 @@ var Node = Base.extend({
         return firstRunnableChild;
     }
 
-    return this.nearestAncestor(); // no more runnable children in the sequence so return first runnable ancestor
+    return this.nearestRunnableAncestor(); // no more runnable children in the sequence so return first runnable ancestor
   },
 
   // returns first namesake forebear encountered when going directly up tree
-  nearestNamesakeAncestor: function(identifier) {
+  nearestAncestor: function(test) {
     if(this.parent === null)
       return null;
-    else if(this.parent.identifier == identifier)
+    else if(test.call(this.parent) === true)
       return this.parent;
     else
-      return this.parent.nearestNamesakeAncestor(identifier);
+      return this.parent.nearestAncestor(test);
+  },
+
+  nearestAncestorWithStrategy: function() {
+    return this.nearestAncestor(function() {
+      return this.strategy !== undefined && this.strategy !== null;
+    });
+  },
+
+  // returns nearest ancestor that can run
+  nearestRunnableAncestor: function() {
+    return this.nearestAncestor(function() {
+      return this.can();
+    });
+  },
+
+  nearestNamesakeAncestor: function(identifier) {
+    return this.nearestAncestor(function() {
+      return this.identifier == identifier;
+    });
   },
 }, {
   getClassName: function() { return "Node"; },

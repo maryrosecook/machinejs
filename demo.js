@@ -53,7 +53,7 @@ Oak.prototype = {
   hasWater: function() { return this.water > 0; },
 };
 
-// the landscape object - rains or is sunny
+// the landscape object - rains or shines
 function Landscape() {
   this.state = null;
   this.groundwater = 0;
