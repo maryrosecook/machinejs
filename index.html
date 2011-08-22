@@ -41,8 +41,8 @@
 
       // make instance of Machine and get the root nodes for each actor
       var machine = new Machine();
-      oak.state = machine.generateTree(oakJson, oak);
-      landscape.state = machine.generateTree(landscapeJson, landscape);
+      oak.state = machine.generateTree(oakJson, oak, Oak.states);
+      landscape.state = machine.generateTree(landscapeJson, landscape, Landscape.states);
 
       // every second, something happens in the ecosystem
       setTimeout("step()", 1000);
@@ -63,6 +63,7 @@
     <h1>Machine.js</h1>
     &nbsp;by <a href='http://maryrosecook.com'>mary rose cook</a><br/>
     Make behaviour trees in JavaScript<br/>
+    v1.1 <a href="/changelog.txt">changelog</a><br/>
 
     <h2>What is this library?</h2>
     <p>
@@ -90,12 +91,12 @@
 };    </code></pre>
 
     <p>
-      2. Define on your object a function for each state where action is taken.
+      2. Define for each leaf state a function that enacts the behaviour for that state.
     </p>
 
     <p>
       3. For each state, define a can function that returns true if the
-      object may move to that state.
+      actor may move to that state.
     </p>
 
     <h2>Licence</h2>
@@ -120,15 +121,16 @@
 
     <p>
       A behaviour tree is a normal state machine, except the states are connected in
-      a hierarchical structure.  At fork states, the object controlled by the tree does
-      nothing.  A fork state simply leads into one of a set of subsequent states (their
-      children).  At leaf states - states with no children - action is taken by the object.
+      a hierarchical structure.  At fork states, the actor controlled by the tree does
+      nothing.  A fork state simply leads into one of a set of subsequent states (its
+      children).  At leaf states - states with no children - action is taken by the actor.
     </p>
 
     <p>
-      Movement from state to state is controlled by two mechanisms: strategies and can functions.
+      Movement from state to state is controlled by two mechanisms: strategies
+      and can functions.
       Each fork state has a strategy that determines which child state to move to.
-      Each state has a can function that returns true if the object is allowed to move to
+      Each state has a can function that returns true if the actor is allowed to move to
       that state.
     </p>
 
@@ -140,9 +142,9 @@
       <script src="https://gist.github.com/991347.js?file=import.js"></script>
     </p>
 
-    <h3>3. Define an object</h3>
+    <h3>3. Define an actor</h3>
     <p>
-      Define the object that will be controlled by the behaviour tree.
+      This is the object that will be controlled by the behaviour tree.
       Any normal JavaScript object will do.
     </p>
 
@@ -151,32 +153,35 @@
     <h3>4. Write a behaviour tree</h3>
 
     <p>
-      Write some JSON that defines your object's behaviour tree.
+      Write some JSON that defines your actor's behaviour tree.
     </p>
 
     <script src="https://gist.github.com/991347.js?file=landscapebehaviour.js"></script>
 
-    <h3>5. Add behaviours to your object</h3>
+    <h3>5. Define can and action functions</h3>
     <p>
-      For each state in your behaviour tree, add a synonymous function to your object.
-      This will be run once when the object moves to the corresponding state.  For each state,
-      also add a function called <code>canNameOfState</code>.  This should return true if
-      the object is allowed to move to the corresponding state.
+      For each leaf state in your behaviour tree, define a synonymous function.
+      This will be run once when the actor moves to the corresponding state.  For each state
+      (leaf or fork),
+      also define a function called <code>canNameOfState</code>.  This should return true if
+      the actor is allowed to move to the corresponding state.
     </p>
 
     <p>
-      For example, if your state is called <code>kiss</code>, you would add a function to your
-      object called <code>kiss</code> that does the kissing, and a function called <code>canKiss</code>
-      that returns true if kissing is allowed.
+      For example, if your leaf state is called <code>kiss</code>, you would define a
+      function
+      called <code>kiss</code> that does the kissing, and a function called
+      <code>canKiss</code>
+      that returns true if kissing is allowed.  Put all these functions into an object:
     </p>
 
-    <script src="https://gist.github.com/991347.js?file=landscapewithbehaviour.js"></script>
+    <script src="https://gist.github.com/991347.js?file=landscapestates.js"></script>
 
     <h3>6. Put it all together</h3>
     <p>
-      Instantiate your object.  Make an instance of Machine.  Use the instance of machine
-      to generate a behaviour tree, passing in the tree JSON and your object.  Repeatedly
-      call <code>tick()</code> on the state machine.
+      Instantiate your actor.  Make an instance of Machine.  Use the instance of machine
+      to generate a behaviour tree, passing in the tree JSON, your actor and the object with all the state functions.  Repeatedly
+      call <code>tick()</code> on the current state to get the next state.
     </p>
 
     <script src="https://gist.github.com/991347.js?file=alltogether.js"></script>
@@ -185,24 +190,26 @@
 
     <h3>Syntax of the JSON</h3>
     <p>
-      States are defined as JSON hashes.  All must have an identifier property that is
-      set to the name of the state.  Fork states also have a strategy property and a children
+      States are defined as JSON hashes.  All must have an <code>identifier</code>
+      property that is
+      set to the name of the state.  Fork states also have a <code>strategy</code>
+      property and a <code>children</code>
       property that is set to a list of subsequent states.
     </p>
 
     <h3>Can functions</h3>
     <p>
-      Each state in the machine has a corresponding can function on the object
-      controlled by the state machine called <code>canNameOfState</code>.
-      This returns true if the object can move to this state.  You can omit
-      this function if the state is always applicible.
+      Each state in the machine has a corresponding can function
+      called <code>canNameOfState</code>.
+      This returns true if the actor can move to this state.  You can omit
+      this function if the state is always permissable.
     </p>
 
     <h3>Strategies</h3>
     <p>
       Fork states are those that have children.  A fork state has a strategy
-      assigned to it that determines which state the machine should move
-      to from a fork state.  Machine.js supports two strategies:
+      assigned to it that determines which state the machine should move subsequently move
+      to.  Machine.js supports two strategies:
     </p>
 
     <h4>Prioritised</h4>
@@ -222,5 +229,39 @@
       the children have been processed, move back to the parent fork state.
     </p>
 
+    <h3>Warping</h3>
+    <p>
+      Sometimes, you want the actor being controlled by the behaviour tree
+      to respond to events.  For example, the player might give a soldier
+      orders to return to base.
+    </p>
+    <p>
+      You can do this with <code>warp()</code>.  First, define your
+      behaviour tree so that it has a special return to base branch that
+      is a direct descendent of the root node:
+    </p>
+
+    <script src="https://gist.github.com/991347.js?file=warpbehaviourtree.js"></script>
+
+    <p>
+      Next, define a function on the actor that can be called to invoke the
+      return to base order.
+      In it, instead of using the <code>tick()</code> function to get the next
+      state, you use <code>warp()</code> and pass in the identifier of the
+      return to base state:
+    </p>
+
+    <script src="https://gist.github.com/991347.js?file=warpusage.js"></script>
+
+    <p>
+      A word of warning.  The <code>warp()</code> function is a violation
+      of the deterministic beauty of a behaviour tree.  Use it sparingly.
+    </p>
+
+    <br/>
+    <hr/>
+    <div class="footer">
+      <a href="http://maryrosecook.com">maryrosecook.com</a>
+    </div>
    </body>
  </html>

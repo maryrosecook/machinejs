@@ -14,6 +14,11 @@ function Oak(landscape) {
 }
 
 Oak.prototype = {
+  hasSun: function() { return this.sun > 0; },
+  hasWater: function() { return this.water > 0; },
+};
+
+Oak.states = {
   idle: function() { },
 
   grow: function() {
@@ -48,9 +53,6 @@ Oak.prototype = {
     this.water += this.landscape.giveWater();
   },
   canGatherWater: function() { return this.landscape.hasWater(); },
-
-  hasSun: function() { return this.sun > 0; },
-  hasWater: function() { return this.water > 0; },
 };
 
 // the landscape object - rains or shines
@@ -61,13 +63,6 @@ function Landscape() {
 }
 
 Landscape.prototype = {
-  idle: function() { },
-
-  rain: function() { this.groundwater += 1; },
-  canRain: function() { return Math.random() > 0.5; },
-
-  shine: function() {  }, // nothing to do - just a state
-  canShine: function() { return Math.random() > 0.1; },
   isShining: function() { return this.state.identifier == "shine"; },
 
   hasWater: function() { return this.groundwater > 0; },
@@ -78,4 +73,14 @@ Landscape.prototype = {
   },
 
   oxygenate: function() { this.oxygen += 1; },
+};
+
+Landscape.states = {
+  idle: function() { },
+
+  rain: function() { this.groundwater += 1; },
+  canRain: function() { return Math.random() > 0.5; },
+
+  shine: function() {  }, // nothing to do - just a state
+  canShine: function() { return Math.random() > 0.1; },
 };
