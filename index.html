@@ -91,12 +91,14 @@
 };    </code></pre>
 
     <p>
-      2. Define for each leaf state a function that enacts the behaviour for that state.
+      2. For each leaf state, define a function that enacts the behaviour for that state.
+      So, for the <code>gatherSun</code> state, define a function that gathers sun.
     </p>
 
     <p>
       3. For each state, define a can function that returns true if the
-      actor may move to that state.
+      actor may move to that state.  So, for the <code>gatherSun</code> state,
+      define a function <code>canGatherSun</code> that returns true if the sun is out.
     </p>
 
     <h2>Licence</h2>
@@ -109,10 +111,8 @@
     <h2>Demo</h2>
     <p>
       A tiny ecosystem is living right now in your browser debug console.  Rain falls, the sun shines.
-      An oak tree absorbs water and sunlight, makes energy and grows.  Open your console and see.
-    </p>
-    <p>
-      View source to see the code.
+      An oak tree absorbs water and sunlight, makes energy and grows.
+      Open your console and see.  View source to see the code.
     </p>
 
     <h2>Tutorial</h2>
@@ -208,7 +208,7 @@
     <h3>Strategies</h3>
     <p>
       Fork states are those that have children.  A fork state has a strategy
-      assigned to it that determines which state the machine should move subsequently move
+      assigned to it that determines which state the machine should subsequently move
       to.  Machine.js supports two strategies:
     </p>
 

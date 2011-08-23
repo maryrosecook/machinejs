@@ -30,9 +30,9 @@ Machine.js lets you use a hierarchical state machine to control a JavaScript obj
     };
     </code></pre>
 
-* Define on your object a function for each state where action is taken.
+* For each leaf state, define a function that enacts the behaviour for that state.  So, for the gatherSun state, define a function that gathers sun.
 
-* Define a can function for each state that returns true if the object may move to that state.
+* For each state, define a can function that returns true if the actor may move to that state.  So, for the gatherSun state, define a function canGatherSun that returns true if the sun is out.
 
 ##Licence
 
